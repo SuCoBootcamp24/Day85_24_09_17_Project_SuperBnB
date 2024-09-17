@@ -1,0 +1,13 @@
+services:
+  bnbbackend:
+    depends_on:
+      - bnbdb
+    build:
+      context: ../backend
+      platforms:
+        - "linux/arm64"
+        - "linux/amd64"
+    ports:
+      - 8181:8080
+    env_file:
+      - ../backend/.env.testing

@@ -1,0 +1,14 @@
+services:
+  bnbdb:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=superbnb
+      - POSTGRES_DB=bnbdb
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 7070:8080
