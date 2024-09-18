@@ -25,7 +25,7 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
-    private property property;
+    private Property property;
 
 
 

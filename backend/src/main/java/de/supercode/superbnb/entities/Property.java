@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
-public class property {
+public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
