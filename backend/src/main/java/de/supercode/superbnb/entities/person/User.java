@@ -1,11 +1,11 @@
 package de.supercode.superbnb.entities.person;
 
 import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.person.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
+@Table(name = "users")
 @Data
 public class User {
     @Id
