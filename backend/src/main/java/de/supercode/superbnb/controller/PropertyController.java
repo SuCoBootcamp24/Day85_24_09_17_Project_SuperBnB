@@ -14,4 +14,13 @@ public class PropertyController {
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
+
+    //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen
+
+    //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)
+
+    //PUT /api/properties/{id}: Eine bestehende Ferienwohnung aktualisieren (nur für Administratoren)
+
+    //DELETE /api/properties/{id}: Eine Ferienwohnung löschen (nur für Administratoren)
+
 }
