@@ -3,6 +3,7 @@ package de.supercode.superbnb.entities;
 import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,10 +15,11 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime bookingDate;
+
     private LocalDate CheckInDate;
     private LocalDate CheckOutDate;
-
+    @CreationTimestamp
+    private LocalDateTime bookingDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

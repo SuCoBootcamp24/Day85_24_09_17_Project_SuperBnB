@@ -2,6 +2,7 @@ package de.supercode.superbnb.services;
 
 import de.supercode.superbnb.dtos.AddressShortResponseDTO;
 import de.supercode.superbnb.dtos.PropertyResponseDTO;
+import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.repositorys.PropertyRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,9 @@ public class PropertyService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Property getPropertyById(long id) {
+        return propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));
     }
 }
