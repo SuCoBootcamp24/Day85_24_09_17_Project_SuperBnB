@@ -4,10 +4,9 @@ import de.supercode.superbnb.dtos.BookingRequestDTO;
 import de.supercode.superbnb.dtos.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -28,8 +27,14 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest));
     }
 
+    //GET /api/bookings/{id}: Liste von buchung des users anzeigen (später über Cookies)
+    @GetMapping("{id}")
+    public ResponseEntity<List<BookingResponseDTO>> getUserBookings(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.getUserBookings(id));
+    }
 
     //DELETE /api/bookings/{id}: Eine Buchung stornieren
+
 
 
 }

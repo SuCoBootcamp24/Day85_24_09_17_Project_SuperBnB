@@ -8,6 +8,8 @@ import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.repositorys.BookingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookingService {
 
@@ -35,5 +37,8 @@ public class BookingService {
     }
 
 
-
+    public List<BookingResponseDTO> getUserBookings(Long id) {
+        User user = userService.getUserById(id);
+        return bookingRepository.findAllByUserId(user.getId());
+    }
 }
