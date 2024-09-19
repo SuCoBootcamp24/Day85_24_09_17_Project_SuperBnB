@@ -16,6 +16,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int guests;
     private LocalDate CheckInDate;
     private LocalDate CheckOutDate;
     @CreationTimestamp
@@ -28,6 +29,8 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
+
+
 
 
 
