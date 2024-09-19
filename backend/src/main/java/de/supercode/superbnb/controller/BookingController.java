@@ -21,6 +21,7 @@ public class BookingController {
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
 
 
+
     //POST /api/bookings: Eine Ferienwohnung buchen
     @PostMapping
     public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest) {
@@ -34,6 +35,11 @@ public class BookingController {
     }
 
     //DELETE /api/bookings/{id}: Eine Buchung stornieren
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> cancelBooking(@PathVariable Long id) {
+        if(bookingService.deleteBooking(id)) return ResponseEntity.ok().build();
+        else return ResponseEntity.notFound().build();
+    }
 
 
 

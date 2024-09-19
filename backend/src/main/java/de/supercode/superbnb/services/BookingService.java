@@ -18,6 +18,14 @@ public class BookingService {
 
     PropertyService propertyService;
 
+    public boolean deleteBooking(Long id) {
+        Booking booking = bookingRepository.findById(id).orElse(null);
+        if (booking != null) {
+            bookingRepository.delete(booking);
+            return true;
+        }
+        return false;
+    }
 
 
     public BookingResponseDTO propertyBooking(BookingRequestDTO bookingRequest) {
