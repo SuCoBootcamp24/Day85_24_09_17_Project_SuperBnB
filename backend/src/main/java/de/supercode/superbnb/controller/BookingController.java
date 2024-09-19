@@ -1,5 +1,6 @@
 package de.supercode.superbnb.controller;
 
+import de.supercode.superbnb.dtos.BookingListByUserResponseDTO;
 import de.supercode.superbnb.dtos.BookingRequestDTO;
 import de.supercode.superbnb.dtos.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
@@ -30,7 +31,7 @@ public class BookingController {
 
     //GET /api/bookings/{id}: Liste von buchung des users anzeigen (später über Cookies)
     @GetMapping("{id}")
-    public ResponseEntity<List<BookingResponseDTO>> getUserBookings(@PathVariable Long id) {
+    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.getUserBookings(id));
     }
 

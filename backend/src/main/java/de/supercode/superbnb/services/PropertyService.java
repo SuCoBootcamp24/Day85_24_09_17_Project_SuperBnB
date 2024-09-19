@@ -24,7 +24,7 @@ public class PropertyService {
                 .map(property -> {
                     return new PropertyResponseDTO(
                             property.getId(),
-                            property.getTitle(),
+                            property.getName(),
                             property.getDescription(),
                             property.getPriceAtNight(),
                             property.isAvailable(),
