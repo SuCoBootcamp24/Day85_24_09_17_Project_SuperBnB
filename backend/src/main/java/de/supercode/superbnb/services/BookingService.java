@@ -1,8 +1,8 @@
 package de.supercode.superbnb.services;
 
-import de.supercode.superbnb.dtos.BookingListByUserResponseDTO;
-import de.supercode.superbnb.dtos.BookingRequestDTO;
-import de.supercode.superbnb.dtos.BookingResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
+import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.entities.Booking;
 import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;

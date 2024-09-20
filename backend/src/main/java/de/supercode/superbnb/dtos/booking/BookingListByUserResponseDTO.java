@@ -1,4 +1,4 @@
-package de.supercode.superbnb.dtos;
+package de.supercode.superbnb.dtos.booking;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

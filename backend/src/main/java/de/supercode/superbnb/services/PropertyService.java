@@ -1,7 +1,7 @@
 package de.supercode.superbnb.services;
 
-import de.supercode.superbnb.dtos.AddressShortResponseDTO;
-import de.supercode.superbnb.dtos.PropertyResponseDTO;
+import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
+import de.supercode.superbnb.dtos.properties.PropertyResponseDTO;
 import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.repositorys.PropertyRepository;
 import org.springframework.stereotype.Service;

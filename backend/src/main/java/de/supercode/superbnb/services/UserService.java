@@ -1,7 +1,6 @@
 package de.supercode.superbnb.services;
 
 import de.supercode.superbnb.entities.person.User;
-import de.supercode.superbnb.repositorys.AdminRepository;
 import de.supercode.superbnb.repositorys.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     UserRepository userRepository;
-    AdminRepository adminRepository;
 
 
 

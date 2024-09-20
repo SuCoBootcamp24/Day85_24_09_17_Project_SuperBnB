@@ -1,8 +1,8 @@
 package de.supercode.superbnb.controller;
 
-import de.supercode.superbnb.dtos.BookingListByUserResponseDTO;
-import de.supercode.superbnb.dtos.BookingRequestDTO;
-import de.supercode.superbnb.dtos.BookingResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
+import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

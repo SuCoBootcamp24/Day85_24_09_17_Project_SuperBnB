@@ -1,4 +1,4 @@
-package de.supercode.superbnb.dtos;
+package de.supercode.superbnb.dtos.address;
 
 public record AddressShortResponseDTO(
         String city,

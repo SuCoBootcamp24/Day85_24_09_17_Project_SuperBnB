@@ -1,6 +1,6 @@
 package de.supercode.superbnb.controller;
 
-import de.supercode.superbnb.dtos.PropertyResponseDTO;
+import de.supercode.superbnb.dtos.properties.PropertyResponseDTO;
 import de.supercode.superbnb.services.PropertyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
