@@ -21,6 +21,16 @@ public class BookingService {
 
     BookingMapper bookingMapper;
 
+
+    public BookingService(BookingRepository bookingRepository, UserService userService, PropertyService propertyService, BookingMapper bookingMapper) {
+        this.bookingRepository = bookingRepository;
+        this.userService = userService;
+        this.propertyService = propertyService;
+        this.bookingMapper = bookingMapper;
+    }
+
+
+
     public boolean deleteBooking(Long id) {
         Booking booking = bookingRepository.findById(id).orElse(null);
         if (booking != null) {
@@ -31,9 +41,9 @@ public class BookingService {
     }
 
 
-    public BookingResponseDTO propertyBooking(BookingRequestDTO bookingRequest) {
+    public BookingResponseDTO propertyBooking(BookingRequestDTO bookingRequest, String userEmail) {
         // Derzeit stumpfe buchung ohne große überprüfung
-        User user = userService.getUserById(bookingRequest.userId());
+        User user = userService.getUserByEmail(userEmail);
         Property property = propertyService.getPropertyById(bookingRequest.propertyId());
 
         Booking newBooking = new Booking();
@@ -49,8 +59,8 @@ public class BookingService {
     }
 
 
-    public List<BookingListByUserResponseDTO> getUserBookings(Long id) {
-        User user = userService.getUserById(id);
+    public List<BookingListByUserResponseDTO> getUserBookings(String email) {
+        User user = userService.getUserByEmail(email);
         List<Booking> bookingList = bookingRepository.findAllByUserId(user.getId());
         return bookingMapper.toDTOList(bookingList);
     }

@@ -1,6 +1,7 @@
 package de.supercode.superbnb.entities.person;
 
 import de.supercode.superbnb.entities.Address;
+import de.supercode.superbnb.entities.Payment;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -24,9 +25,9 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @UniqueElements
+    @Column(unique = true)
     private String email;
     private String password;
     private String firstName;
@@ -36,6 +37,9 @@ public class User implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Payment payment;
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -15,7 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 })
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/API/v1/Properties")   // Ohne login erlaubte seiten
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/Properties")   // Ohne login erlaubte seiten
                         .permitAll()
                         .requestMatchers("/api/v1/auth/")  // Nur mit login erlaubte seiten
                         .hasRole("ADMIN")

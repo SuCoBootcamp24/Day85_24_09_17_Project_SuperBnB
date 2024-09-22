@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/API/v1/Properties")
+@RequestMapping("/api/v1/Properties")
 public class PropertyController {
 
     PropertyService propertyService;
@@ -20,11 +20,14 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
-    //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen
+    //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
     public ResponseEntity<List<PropertyResponseDTO>> getAllProperties() {
         return ResponseEntity.ok(propertyService.getAllProperties());
     }
+
+    //GET /api/v1/properties/search: Param verschiedene sucherfiter ========== (public)
+
 
     //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)
 
