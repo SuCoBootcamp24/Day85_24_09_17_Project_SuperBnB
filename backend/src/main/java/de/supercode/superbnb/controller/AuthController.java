@@ -1,0 +1,40 @@
+package de.supercode.superbnb.controller;
+
+import de.supercode.superbnb.dtos.auth.AuthRegDTO;
+import de.supercode.superbnb.dtos.user.UserResponseDTO;
+import de.supercode.superbnb.entities.person.User;
+import de.supercode.superbnb.services.AuthentificationService;
+import de.supercode.superbnb.services.UserService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+
+@RestController
+@RequestMapping("/api/v1/auth")
+public class AuthController {
+
+    AuthentificationService authentificationService;
+    UserService userService;
+
+    public AuthController(AuthentificationService authentificationService, UserService userService) {
+        this.authentificationService = authentificationService;
+        this.userService = userService;
+    }
+
+    @PostMapping("/login") //login durch BasicAuth im header
+    public UserResponseDTO login(Principal principal) {
+        return userService.getUserDetails(principal.getName());
+    }
+
+    @PostMapping("/register")
+    public User register(@RequestBody AuthRegDTO dto){
+        return authentificationService.UserRegister(dto);
+    }
+
+    @DeleteMapping("/logout")
+    public void logout(HttpSession session){
+        session.invalidate();
+    }
+
+}

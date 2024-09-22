@@ -1,12 +1,13 @@
 package de.supercode.superbnb.controller;
 
-import de.supercode.superbnb.dtos.BookingListByUserResponseDTO;
-import de.supercode.superbnb.dtos.BookingRequestDTO;
-import de.supercode.superbnb.dtos.BookingResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
+import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -19,20 +20,24 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+
+
+
+
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
 
 
 
     //POST /api/bookings: Eine Ferienwohnung buchen
     @PostMapping
-    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest) {
-        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest));
+    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest, Principal userDetails) {
+        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest, userDetails.getName()));
     }
 
-    //GET /api/bookings/{id}: Liste von buchung des users anzeigen (später über Cookies)
-    @GetMapping("{id}")
-    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(@PathVariable Long id) {
-        return ResponseEntity.ok(bookingService.getUserBookings(id));
+    //GET /api/bookings/userbooking: Liste von buchung des users anzeigen (später über Cookies)
+    @GetMapping("list")
+    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(Principal userDetails) {
+        return ResponseEntity.ok(bookingService.getUserBookings(userDetails.getName()));
     }
 
     //DELETE /api/bookings/{id}: Eine Buchung stornieren

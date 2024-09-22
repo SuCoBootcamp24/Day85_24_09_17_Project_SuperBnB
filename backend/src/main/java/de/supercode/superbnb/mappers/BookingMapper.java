@@ -1,7 +1,6 @@
 package de.supercode.superbnb.mappers;
 
-import de.supercode.superbnb.dtos.BookingListByUserResponseDTO;
-import de.supercode.superbnb.dtos.BookingResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
 import de.supercode.superbnb.entities.Booking;
 import org.springframework.stereotype.Component;
 
