@@ -31,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserList(principal.getName()));
     }
 
-    
+
 
     //POST /api/users: Einen neuen Benutzer anlegen (nur für Administratoren)
     @PostMapping

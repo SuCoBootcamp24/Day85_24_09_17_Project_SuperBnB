@@ -75,13 +75,15 @@ public class UserService {
             updatedPayment = paymentService.getPaymentById(updatedUser.getPayment().getId());
         }
 
-        if (!initiatedUser.getRole().equals(Role.ADMIN) || initiatedUser.getId() != dto.id()) throw new RuntimeException("You are not a Administrator!");
+        if (!initiatedUser.getRole().equals(Role.ADMIN) && initiatedUser.getId() != dto.id()) throw new RuntimeException("You are not a Administrator!");
 
-        if (!dto.firstName().isBlank() && updatedUser.getFirstName().equals(dto.firstName())) updatedUser.setFirstName(dto.firstName());
-        if (!dto.lastName().isBlank() && updatedUser.getLastName().equals(dto.lastName())) updatedUser.setLastName(dto.lastName());
-        if (!dto.email().isBlank() && updatedUser.getEmail().equals(dto.email())) updatedUser.setEmail(dto.email());
+        if (!dto.firstName().isBlank() && !updatedUser.getFirstName().equals(dto.firstName())) updatedUser.setFirstName(dto.firstName());
+        if (!dto.lastName().isBlank() && !updatedUser.getLastName().equals(dto.lastName())) updatedUser.setLastName(dto.lastName());
+        if (!dto.email().isBlank() && !updatedUser.getEmail().equals(dto.email())) updatedUser.setEmail(dto.email());
+        if (!dto.phone().isBlank() && !updatedUser.getPhone().equals(dto.phone())) updatedUser.setPhone(dto.phone());
 
-        authenticationService.changePassword(updatedUser, dto.password());
+        //password update
+        if (!dto.password().isBlank()) authenticationService.changePassword(updatedUser, dto.password());
 
         //address update
         if (!dto.street().isBlank() || !dto.houseNumber().isBlank() || !dto.city().isBlank() || !dto.zipCode().isBlank() || !dto.country().isBlank()) updatedUser.setAddress(addressService.updateAddress(updatedAddress, dto));
@@ -89,8 +91,12 @@ public class UserService {
         if (!dto.cardNumber().isBlank() ||!dto.cvv().isBlank() || dto.expirationDate() != null) updatedUser.setPayment(paymentService.updatePayment(updatedPayment, dto));
 
         //Roles update
-        if (initiatedUser.getRole().equals(Role.ADMIN) && initiatedUser.getId() != updatedUser.getId() && !updatedUser.getRole().equals(dto.role())) {
-            updatedUser.setRole(dto.role());
+        if(!updatedUser.getRole().equals(dto.role())) {
+            if (initiatedUser.getRole().equals(Role.ADMIN)) {
+                if (initiatedUser.getId() != updatedUser.getId()) {
+                    updatedUser.setRole(dto.role());
+                } else throw new RuntimeException("You can't change your own role");
+            } else throw new RuntimeException("You are not privileged to change your role");
         }
 
         userRepository.save(updatedUser);
