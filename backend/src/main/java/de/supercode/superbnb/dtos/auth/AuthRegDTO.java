@@ -17,11 +17,22 @@ public record AuthRegDTO(
         String password,
         String phone,
 
+        //---- address
         String street,
         String houseNumber,
         String postalCode,
         String city,
-        String country
+        String country,
+
+        //---- payment
+
+        @NotBlank
+        String cardNumber,
+        @NotBlank
+        String cvv,
+
+        @NotBlank
+        String expirationDate
 
 ) {
 }

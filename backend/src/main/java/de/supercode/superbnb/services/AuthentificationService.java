@@ -3,6 +3,7 @@ package de.supercode.superbnb.services;
 
 import de.supercode.superbnb.dtos.auth.AuthRegDTO;
 import de.supercode.superbnb.entities.Address;
+import de.supercode.superbnb.entities.Payment;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.repositorys.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,21 +21,39 @@ public class AuthentificationService {
     }
 
     public User UserRegister(AuthRegDTO dto) {
-        User newUser = new User();
-        newUser.setFirstName(dto.firstName());
-        newUser.setLastName(dto.lastName());
-        newUser.setEmail(dto.email());
-        newUser.setPassword(passwordEncoder.encode(dto.password()));
+        User newUser = creatNewUser(dto, newUser);
         if (dto.phone() != null) newUser.setPhone(dto.phone());
         if (dto.street() != null) {
-            Address newAddress = new Address();
-            newAddress.setStreet(dto.street());
-            newAddress.setHouseNumber(dto.houseNumber());
-            newAddress.setZipCode(dto.postalCode());
-            newAddress.setCity(dto.city());
-            newAddress.setCountry(dto.country());
-            newUser.setAddress(newAddress);
+            newUser.setAddress(creatNewAddress(dto));
         }
+        newUser.setPayment(creatNewPayment(dto));
         return userRepository.save(newUser);
+    }
+
+    private User creatNewUser(AuthRegDTO dto, User newUser) {
+       return new User(
+            dto.firstName(),
+            dto.lastName(),
+            dto.email(),
+            passwordEncoder.encode(dto.password())
+       );
+    }
+
+    private Payment creatNewPayment(AuthRegDTO dto) {
+        return new Payment(
+            dto.cardNumber(),
+            dto.cvv(),
+            dto.expirationDate()
+        );
+    }
+
+    private Address creatNewAddress(AuthRegDTO dto) {
+        return new Address(
+            dto.street(),
+            dto.houseNumber(),
+            dto.city(),
+            dto.postalCode(),
+            dto.country()
+        );
     }
 }

@@ -1,6 +1,5 @@
 package de.supercode.superbnb.entities;
 
-import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +15,12 @@ public class Payment {
     private String cvv;
     private String expirationDate;
 
-    @OneToOne
-    private User user;
+    public Payment() {
+    }
+
+    public Payment(String cardNumber, String cvv, String expirationDate) {
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+        this.expirationDate = expirationDate;
+    }
 }

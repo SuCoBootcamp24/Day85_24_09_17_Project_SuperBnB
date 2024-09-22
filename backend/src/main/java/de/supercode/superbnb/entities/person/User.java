@@ -44,6 +44,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User() {
+    }
+
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     @PrePersist
     public void SetDefaultRole() {
         if (role == null) {
