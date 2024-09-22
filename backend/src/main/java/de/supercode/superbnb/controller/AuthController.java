@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public User register(@RequestBody AuthRegDTO dto){
-        return authentificationService.UserRegister(dto);
+        return authentificationService.userRegister(dto);
     }
 
     @DeleteMapping("/logout")
