@@ -20,5 +20,7 @@ public class Property {
     private BigDecimal priceAtNight;
     private boolean available;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
 }

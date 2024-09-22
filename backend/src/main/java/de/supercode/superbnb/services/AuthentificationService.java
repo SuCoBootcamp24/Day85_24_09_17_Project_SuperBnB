@@ -21,7 +21,7 @@ public class AuthentificationService {
     }
 
     public User UserRegister(AuthRegDTO dto) {
-        User newUser = creatNewUser(dto, newUser);
+        User newUser = creatNewUser(dto);
         if (dto.phone() != null) newUser.setPhone(dto.phone());
         if (dto.street() != null) {
             newUser.setAddress(creatNewAddress(dto));
@@ -30,7 +30,7 @@ public class AuthentificationService {
         return userRepository.save(newUser);
     }
 
-    private User creatNewUser(AuthRegDTO dto, User newUser) {
+    private User creatNewUser(AuthRegDTO dto) {
        return new User(
             dto.firstName(),
             dto.lastName(),

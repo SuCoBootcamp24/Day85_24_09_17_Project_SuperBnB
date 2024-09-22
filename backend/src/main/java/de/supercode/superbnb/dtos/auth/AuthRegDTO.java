@@ -2,6 +2,8 @@ package de.supercode.superbnb.dtos.auth;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.YearMonth;
+
 public record AuthRegDTO(
 
         @NotBlank
@@ -32,7 +34,7 @@ public record AuthRegDTO(
         String cvv,
 
         @NotBlank
-        String expirationDate
+        YearMonth expirationDate
 
 ) {
 }
