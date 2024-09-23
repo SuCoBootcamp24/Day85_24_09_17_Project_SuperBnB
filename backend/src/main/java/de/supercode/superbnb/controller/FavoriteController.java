@@ -36,6 +36,10 @@ public class FavoriteController {
     }
 
     //DELETE /api/favorites/{id}: Ein Ferienwohnung aus favoriten entfernen ====(USER Only)
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removePropertyFromFavorites(@PathVariable long id, Principal principal) {
+        propertyService.removeFromFavorites(id, principal.getName());
+        return ResponseEntity.ok().build();
+    }
 
 }

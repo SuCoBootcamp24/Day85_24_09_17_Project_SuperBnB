@@ -147,4 +147,16 @@ public class PropertyService {
         favoriteList.get().getFavorites().add(property);
         favoriteRepository.save(favoriteList.get());
     }
+
+    public void removeFromFavorites(long id, String userEmail) {
+        if (userEmail == null) throw new RuntimeException("you must Sign in or sign up");
+
+        User user = userService.getUserByEmail(userEmail);
+        Optional<Favorite> favoriteList = favoriteRepository.findByUserId(user.getId());
+        if (favoriteList.isPresent()) {
+            Property property = getPropertyById(id);
+            favoriteList.get().getFavorites().remove(property);
+            favoriteRepository.save(favoriteList.get());
+        }
+    }
 }
