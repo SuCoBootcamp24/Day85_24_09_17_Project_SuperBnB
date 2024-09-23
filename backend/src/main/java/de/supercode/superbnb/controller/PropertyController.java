@@ -20,10 +20,13 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+
+
+
     //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
-    public ResponseEntity<List<PropertyResponseDTO>> getAllProperties() {
-        return ResponseEntity.ok(propertyService.getAllProperties());
+    public ResponseEntity<List<PropertyResponseDTO>> getAllProperties(Principal principal) {
+        return ResponseEntity.ok(propertyService.getAllProperties(principal));
     }
 
     //GET /api/v1/properties/search: Param verschiedene sucherfiter ========== (public)

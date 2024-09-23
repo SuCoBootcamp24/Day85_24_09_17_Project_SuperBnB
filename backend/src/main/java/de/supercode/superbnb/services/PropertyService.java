@@ -23,9 +23,32 @@ public class PropertyService {
         this.authenticationService = authenticationService;
     }
 
-    public List<PropertyResponseDTO> getAllProperties() {
+    public List<PropertyResponseDTO> getAllProperties(Principal principal) {
+        if (principal != null) {
+            if (authenticationService.hasAdminRights(principal.getName())) {
+                return propertyRepository.findAll()
+                        .stream()
+                        .map(property -> {
+                            return new PropertyResponseDTO(
+                                    property.getId(),
+                                    property.getName(),
+                                    property.getDescription(),
+                                    property.getPriceAtNight(),
+                                    property.isAvailable(),
+                                    new AddressShortResponseDTO(
+                                            property.getAddress().getStreet(),
+                                            property.getAddress().getCity(),
+                                            property.getAddress().getCountry()
+                                    )
+                            );
+                        })
+                        .collect(Collectors.toList());
+            }
+
+        }
         return propertyRepository.findAll()
                 .stream()
+                .filter(property -> property.isAvailable())
                 .map(property -> {
                     return new PropertyResponseDTO(
                             property.getId(),

@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 })
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/Properties")   // Ohne login erlaubte seiten
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/properties")   // Ohne login erlaubte seiten
                         .permitAll()
                         .requestMatchers("/api/v1/auth/" , "/api/v1/users", "/api/v1/users/delete/*" )  // Nur mit login erlaubte seiten
                         .hasRole("ADMIN")
