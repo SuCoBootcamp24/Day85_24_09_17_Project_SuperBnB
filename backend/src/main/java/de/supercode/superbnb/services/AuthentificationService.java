@@ -5,6 +5,7 @@ import de.supercode.superbnb.dtos.auth.AuthAdminRegDTO;
 import de.supercode.superbnb.dtos.auth.AuthRegDTO;
 import de.supercode.superbnb.entities.Address;
 import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.repositorys.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,5 +82,9 @@ public class AuthentificationService {
             existUser.setPassword(newPassword);
             userRepository.save(existUser);
         }
+    }
+
+    public boolean hasAdminRights(String adminEmail) {
+        return userRepository.findByEmail(adminEmail).get().getRole().equals(Role.ADMIN);
     }
 }
