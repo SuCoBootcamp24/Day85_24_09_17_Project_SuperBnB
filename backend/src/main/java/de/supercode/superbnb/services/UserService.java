@@ -111,4 +111,15 @@ public class UserService {
         if (!getUserByEmail(adminEmail).getRole().equals(Role.ADMIN) && getUserByEmail(adminEmail).getId() != id) throw new RuntimeException("You are not a Administrator");
         return userMapper.toDTO(getUserById(id));
     }
+
+    public boolean deleteUserById(long id, String adminEmail) {
+        User initiatedUser = getUserByEmail(adminEmail);
+       // if (!initiatedUser.getRole().equals(Role.ADMIN)) throw new RuntimeException("You are not a Administrator");
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+                userRepository.delete(user.get());
+                return true;
+        }
+        else throw new RuntimeException("user was not found");
+    }
 }

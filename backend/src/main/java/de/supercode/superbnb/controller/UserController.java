@@ -54,9 +54,12 @@ public class UserController {
     }
 
 
-
-
     //DELETE /api/users/delete/{id}: Einen Benutzer löschen (nur für Administratoren)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable long id, Principal adminDetails) {
+        if (userService.deleteUserById(id, adminDetails.getName())) return ResponseEntity.ok().build();
+        else return ResponseEntity.badRequest().build();
+    }
 
 
 }
