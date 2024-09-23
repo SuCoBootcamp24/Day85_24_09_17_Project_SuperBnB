@@ -5,6 +5,7 @@ import de.supercode.superbnb.entities.Booking;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class BookingMapper {
                             booking.getProperty().getName(),
                             booking.getCheckInDate(),
                             booking.getCheckOutDate(),
-                            price.multiply(BigDecimal.valueOf(booking.getGuests()))
+                            price.multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate())))
                     );
                 })
                 .collect(Collectors.toList());
