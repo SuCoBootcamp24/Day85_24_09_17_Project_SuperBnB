@@ -32,6 +32,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserList(principal.getName()));
     }
 
+    //GET /api/users/details/{id}: Details eines Benutzers anzeigen (nur für Administratoren) oder sich selbst (optional)
     @GetMapping("/details/{id}")
     public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable long id, Principal adminDetails) {
         return ResponseEntity.ok(userService.getUserDetails(id, adminDetails.getName()));

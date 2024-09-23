@@ -1,7 +1,6 @@
 package de.supercode.superbnb.dtos.user;
 
 import de.supercode.superbnb.dtos.address.AddressDetailsDTO;
-import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
 import de.supercode.superbnb.dtos.payment.PaymentResponseDTO;
 import de.supercode.superbnb.entities.person.Role;
 

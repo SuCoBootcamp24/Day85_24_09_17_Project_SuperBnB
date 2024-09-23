@@ -25,7 +25,7 @@ public class UserMapper {
                 user.getEmail(),
                 user.getPhone(),
                 address == null? null : new AddressDetailsDTO(address.getId(), address.getStreet(), address.getHouseNumber(), address.getCity(), address.getZipCode(), address.getCountry()),
-                payment == null? null : new PaymentResponseDTO(payment.getCardNumber(), payment.getCvv(), payment.getExpirationDate()),
+                payment == null? null : new PaymentResponseDTO(payment.getId(), payment.getCardNumber(), payment.getCvv(), payment.getExpirationDate()),
                 user.getRole()
         );
     }

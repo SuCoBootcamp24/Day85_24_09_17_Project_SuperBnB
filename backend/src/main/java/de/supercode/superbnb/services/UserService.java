@@ -108,7 +108,7 @@ public class UserService {
     }
 
     public UserDetailsResponseDTO getUserDetails(long id, String adminEmail) {
-        if (!getUserByEmail(adminEmail).getRole().equals(Role.ADMIN)) throw new RuntimeException("You are not a Administrator");
+        if (!getUserByEmail(adminEmail).getRole().equals(Role.ADMIN) && getUserByEmail(adminEmail).getId() != id) throw new RuntimeException("You are not a Administrator");
         return userMapper.toDTO(getUserById(id));
     }
 }
