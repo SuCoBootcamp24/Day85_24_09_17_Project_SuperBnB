@@ -4,6 +4,7 @@ import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,5 +20,5 @@ public class Favorite {
     private User user;
 
     @OneToMany
-    private Set<Property> favorites;
+    private Set<Property> favorites = new HashSet<>();
 }

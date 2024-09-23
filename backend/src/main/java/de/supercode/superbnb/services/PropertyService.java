@@ -1,12 +1,16 @@
 package de.supercode.superbnb.services;
 
 import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
+import de.supercode.superbnb.dtos.favorite.FavoriteListDTO;
 import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
 import de.supercode.superbnb.entities.Address;
+import de.supercode.superbnb.entities.Favorite;
 import de.supercode.superbnb.entities.Property;
+import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.PropertyMapper;
+import de.supercode.superbnb.repositorys.FavoriteRepository;
 import de.supercode.superbnb.repositorys.PropertyRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +25,19 @@ public class PropertyService {
     PropertyRepository propertyRepository;
     private AuthentificationService authenticationService;
 
+    FavoriteRepository favoriteRepository;
+
+    UserService userService;
+
     PropertyMapper propertyMapper;
 
     AddressService addressService;
 
-
-    public PropertyService(PropertyRepository propertyRepository, AuthentificationService authenticationService, PropertyMapper propertyMapper, AddressService addressService) {
+    public PropertyService(PropertyRepository propertyRepository, AuthentificationService authenticationService, FavoriteRepository favoriteRepository, UserService userService, PropertyMapper propertyMapper, AddressService addressService) {
         this.propertyRepository = propertyRepository;
         this.authenticationService = authenticationService;
+        this.favoriteRepository = favoriteRepository;
+        this.userService = userService;
         this.propertyMapper = propertyMapper;
         this.addressService = addressService;
     }
@@ -105,5 +114,37 @@ public class PropertyService {
 
         propertyRepository.save(property);
         return true;
+    }
+
+
+    public List<FavoriteListDTO> getFavorites(String userEmail) {
+        if (userEmail == null) throw new RuntimeException("you must Sign in or sign up");
+        User user = userService.getUserByEmail(userEmail);
+        Optional<Favorite> favoriteList = favoriteRepository.findByUserId(user.getId());
+        return favoriteList.map(favorite -> favorite.getFavorites().stream()
+                .map(property -> new FavoriteListDTO(
+                        property.getId(),
+                        property.getName(),
+                        property.getDescription(),
+                        property.getPriceAtNight()
+                )).collect(Collectors.toList())).orElse(null);
+
+
+    }
+
+    public void addToFavorites(long id, String userEmail) {
+        if (userEmail == null) throw new RuntimeException("you must Sign in or sign up");
+
+        User user = userService.getUserByEmail(userEmail);
+        Optional<Favorite> favoriteList = favoriteRepository.findByUserId(user.getId());
+
+        if (!favoriteList.isPresent()) {
+            favoriteList = Optional.of(new Favorite());
+            favoriteList.get().setUser(user);
+            favoriteRepository.save(favoriteList.get());
+        }
+        Property property = getPropertyById(id);
+        favoriteList.get().getFavorites().add(property);
+        favoriteRepository.save(favoriteList.get());
     }
 }
