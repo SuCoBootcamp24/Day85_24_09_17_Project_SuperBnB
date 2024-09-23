@@ -1,6 +1,7 @@
 package de.supercode.superbnb.controller;
 
 import de.supercode.superbnb.dtos.auth.AuthAdminRegDTO;
+import de.supercode.superbnb.dtos.user.UserDetailsResponseDTO;
 import de.supercode.superbnb.dtos.user.UserListDTO;
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.services.AuthentificationService;
@@ -31,6 +32,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserList(principal.getName()));
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable long id, Principal adminDetails) {
+        return ResponseEntity.ok(userService.getUserDetails(id, adminDetails.getName()));
+    }
 
 
     //POST /api/users: Einen neuen Benutzer anlegen (nur für Administratoren)

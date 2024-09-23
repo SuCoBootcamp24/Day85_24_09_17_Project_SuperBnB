@@ -1,12 +1,14 @@
 package de.supercode.superbnb.services;
 
+import de.supercode.superbnb.dtos.user.UserDetailsResponseDTO;
 import de.supercode.superbnb.dtos.user.UserListDTO;
-import de.supercode.superbnb.dtos.user.UserResponseDTO;
+import de.supercode.superbnb.dtos.user.UserShortResponseDTO;
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.entities.Address;
 import de.supercode.superbnb.entities.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
+import de.supercode.superbnb.mappers.UserMapper;
 import de.supercode.superbnb.repositorys.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    UserMapper userMapper;
     private UserRepository userRepository;
 
     private AuthentificationService authenticationService;
@@ -25,7 +28,8 @@ public class UserService {
     private PaymentService paymentService;
 
 
-    public UserService(UserRepository userRepository, AuthentificationService authenticationService, AddressService addressService, PaymentService paymentService) {
+    public UserService(UserMapper userMapper, UserRepository userRepository, AuthentificationService authenticationService, AddressService addressService, PaymentService paymentService) {
+        this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.authenticationService = authenticationService;
         this.addressService = addressService;
@@ -41,9 +45,9 @@ public class UserService {
     }
 
 
-    public UserResponseDTO getUserDetails(String email) {
+    public UserShortResponseDTO getUserDetailsByLogin(String email) {
         User existUser = getUserByEmail(email);
-        return new UserResponseDTO(existUser.getId(), existUser.getFirstName(), existUser.getLastName(), existUser.getRole());
+        return new UserShortResponseDTO(existUser.getId(), existUser.getFirstName(), existUser.getLastName(), existUser.getRole());
     }
 
 
@@ -101,5 +105,10 @@ public class UserService {
 
         userRepository.save(updatedUser);
         return true;
+    }
+
+    public UserDetailsResponseDTO getUserDetails(long id, String adminEmail) {
+        if (!getUserByEmail(adminEmail).getRole().equals(Role.ADMIN)) throw new RuntimeException("You are not a Administrator");
+        return userMapper.toDTO(getUserById(id));
     }
 }

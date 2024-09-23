@@ -1,7 +1,7 @@
 package de.supercode.superbnb.controller;
 
 import de.supercode.superbnb.dtos.auth.AuthRegDTO;
-import de.supercode.superbnb.dtos.user.UserResponseDTO;
+import de.supercode.superbnb.dtos.user.UserShortResponseDTO;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.services.AuthentificationService;
 import de.supercode.superbnb.services.UserService;
@@ -23,8 +23,8 @@ public class AuthController {
     }
 
     @PostMapping("/login") //login durch BasicAuth im header
-    public UserResponseDTO login(Principal principal) {
-        return userService.getUserDetails(principal.getName());
+    public UserShortResponseDTO login(Principal principal) {
+        return userService.getUserDetailsByLogin(principal.getName());
     }
 
     @PostMapping("/register")

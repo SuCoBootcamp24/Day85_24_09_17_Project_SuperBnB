@@ -2,7 +2,7 @@ package de.supercode.superbnb.dtos.address;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record addressRequesstDTO(
+public record AddressRequesstDTO(
         @NotBlank
         String street,
 
