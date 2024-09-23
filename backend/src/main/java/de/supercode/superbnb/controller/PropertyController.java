@@ -1,7 +1,8 @@
 package de.supercode.superbnb.controller;
 
 import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
-import de.supercode.superbnb.dtos.properties.PropertyResponseDTO;
+import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
+import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
 import de.supercode.superbnb.services.PropertyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class PropertyController {
 
     //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
-    public ResponseEntity<List<PropertyResponseDTO>> getAllProperties(Principal principal) {
+    public ResponseEntity<List<PropertyListResponseDTO>> getAllProperties(Principal principal) {
         return ResponseEntity.ok(propertyService.getAllProperties(principal));
     }
 
@@ -34,12 +35,17 @@ public class PropertyController {
 
     //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)
     @PostMapping
-    public ResponseEntity<PropertyResponseDTO> creatNewProperty(@RequestBody PropertyRequestDTO dto, Principal adminDetails) {
+    public ResponseEntity<PropertyListResponseDTO> creatNewProperty(@RequestBody PropertyRequestDTO dto, Principal adminDetails) {
         System.out.println(adminDetails.getName());
         return ResponseEntity.ok(propertyService.createNewProperty(dto, adminDetails.getName()));
     }
 
     //PUT /api/properties/{id}: Eine bestehende Ferienwohnung aktualisieren (nur für Administratoren)
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProperty(@PathVariable long id, @RequestBody PropertyUpdateDTO dto, Principal adminDetails) {
+        if (propertyService.updateProperty(id, dto, adminDetails.getName())) return ResponseEntity.ok().build();
+        else return ResponseEntity.badRequest().build();
+    }
 
     //DELETE /api/properties/{id}: Eine Ferienwohnung löschen (nur für Administratoren)
 

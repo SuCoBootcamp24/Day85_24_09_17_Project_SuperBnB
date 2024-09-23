@@ -4,7 +4,7 @@ import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
 
 import java.math.BigDecimal;
 
-public record PropertyResponseDTO(
+public record PropertyListResponseDTO(
         Long id,
         String title,
         String description,
