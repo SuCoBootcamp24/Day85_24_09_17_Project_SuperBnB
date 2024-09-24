@@ -6,6 +6,7 @@ import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
 import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,6 +28,7 @@ public class BookingController {
 
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
     @GetMapping("list")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<BookingAdminListDTO>> getAllBookings(Principal adminDetails) {
         return ResponseEntity.ok(bookingService.getAllBookings(adminDetails.getName()));
     }
@@ -51,7 +53,6 @@ public class BookingController {
         if(bookingService.deleteBooking(id)) return ResponseEntity.ok().build();
         else return ResponseEntity.notFound().build();
     }
-
 
 
 }

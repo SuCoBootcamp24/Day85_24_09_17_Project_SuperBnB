@@ -1,7 +1,5 @@
 package de.supercode.superbnb.dtos.user;
 
-import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import jakarta.validation.constraints.NotBlank;
 

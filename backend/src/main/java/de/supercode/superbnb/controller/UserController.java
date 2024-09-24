@@ -7,6 +7,7 @@ import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.services.AuthentificationService;
 import de.supercode.superbnb.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -28,12 +29,14 @@ public class UserController {
 
     //GET /api/v1/users: Liste aller Benutzer anzeigen (nur für Administratoren)
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserListDTO>> getUserList(Principal principal) {
         return ResponseEntity.ok(userService.getUserList(principal.getName()));
     }
 
     //GET /api/users/details/{id}: Details eines Benutzers anzeigen (nur für Administratoren) oder sich selbst (optional)
     @GetMapping("/details/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable long id, Principal adminDetails) {
         return ResponseEntity.ok(userService.getUserDetails(id, adminDetails.getName()));
     }
@@ -41,6 +44,7 @@ public class UserController {
 
     //POST /api/users: Einen neuen Benutzer anlegen (nur für Administratoren)
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> creatNewUserByAdmin(@RequestBody AuthAdminRegDTO newUserDTO) {
         if (authentificationService.userRegisterByAdmin(newUserDTO)) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();
@@ -56,6 +60,7 @@ public class UserController {
 
     //DELETE /api/users/delete/{id}: Einen Benutzer löschen (nur für Administratoren)
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable long id, Principal adminDetails) {
         if (userService.deleteUserById(id, adminDetails.getName())) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();
