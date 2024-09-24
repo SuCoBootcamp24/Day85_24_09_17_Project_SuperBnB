@@ -22,6 +22,7 @@ public class AuthController {
         this.userService = userService;
     }
 
+
     @PostMapping("/login") //login durch BasicAuth im header
     public UserShortResponseDTO login(Principal principal) {
         return userService.getUserDetailsByLogin(principal.getName());

@@ -1,5 +1,6 @@
 package de.supercode.superbnb.controller;
 
+import de.supercode.superbnb.dtos.booking.BookingAdminListDTO;
 import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
 import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
 import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
@@ -25,6 +26,10 @@ public class BookingController {
 
 
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
+    @GetMapping("list")
+    public ResponseEntity<List<BookingAdminListDTO>> getAllBookings(Principal adminDetails) {
+        return ResponseEntity.ok(bookingService.getAllBookings(adminDetails.getName()));
+    }
 
 
 
@@ -35,7 +40,7 @@ public class BookingController {
     }
 
     //GET /api/bookings/userbooking: Liste von buchung des users anzeigen (später über Cookies)
-    @GetMapping("list")
+    @GetMapping("userbooking")
     public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(Principal userDetails) {
         return ResponseEntity.ok(bookingService.getUserBookings(userDetails.getName()));
     }

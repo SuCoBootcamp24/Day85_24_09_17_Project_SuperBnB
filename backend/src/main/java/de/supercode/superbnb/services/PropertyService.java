@@ -144,8 +144,10 @@ public class PropertyService {
             favoriteRepository.save(favoriteList.get());
         }
         Property property = getPropertyById(id);
-        favoriteList.get().getFavorites().add(property);
-        favoriteRepository.save(favoriteList.get());
+        if (property.isAvailable()) {
+            favoriteList.get().getFavorites().add(property);
+            favoriteRepository.save(favoriteList.get());
+        }
     }
 
     public void removeFromFavorites(long id, String userEmail) {

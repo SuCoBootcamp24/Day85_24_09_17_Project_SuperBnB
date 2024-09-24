@@ -122,4 +122,8 @@ public class UserService {
         }
         else throw new RuntimeException("user was not found");
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }
