@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,6 +34,16 @@ public class PropertyController {
     }
 
     //GET /api/v1/properties/search: Param verschiedene sucherfiter ========== (public)
+    @GetMapping("/search")
+    public ResponseEntity<List<PropertyListResponseDTO>> searchProperties(@RequestParam(required = true) LocalDate checkIn,
+                                                                          @RequestParam(required = true) LocalDate checkOut,
+                                                                          @RequestParam(required = true) Integer guests,
+                                                                          @RequestParam(required = false) String city,
+                                                                          @RequestParam(required = false) String country){
+
+        return ResponseEntity.ok(propertyService.searchPropertiesByAddress(checkIn, checkOut, guests, city, country));
+    }
+
 
 
     //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)

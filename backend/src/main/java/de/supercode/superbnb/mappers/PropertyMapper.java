@@ -37,8 +37,8 @@ public class PropertyMapper {
                 property.getPriceAtNight(),
                 property.isAvailable(),
                 new AddressShortResponseDTO(
-                        property.getAddress().getStreet(),
                         property.getAddress().getCity(),
+                        property.getAddress().getZipCode(),
                         property.getAddress().getCountry()
                 )
         );

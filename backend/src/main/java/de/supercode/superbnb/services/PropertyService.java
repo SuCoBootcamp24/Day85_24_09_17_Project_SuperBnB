@@ -15,6 +15,7 @@ import de.supercode.superbnb.repositorys.PropertyRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,7 +80,7 @@ public class PropertyService {
         if (dto.priceAtNight() != null)  property.setPriceAtNight(dto.priceAtNight());
         if (dto.available() != null) property.setAvailable(dto.available());
 
-        property.setAddress(new Address(dto.street(), dto.houseNumber(), dto.zipCode(), dto.city(), dto.country()));
+       property.setAddress(new Address(dto.street(), dto.houseNumber(), dto.city(), dto.zipCode(), dto.country()));
 
         propertyRepository.save(property);
 
@@ -160,5 +161,25 @@ public class PropertyService {
             favoriteList.get().getFavorites().remove(property);
             favoriteRepository.save(favoriteList.get());
         }
+    }
+
+    public List<PropertyListResponseDTO> searchPropertiesByAddress(LocalDate checkIn, LocalDate checkOut, Integer guests, String city, String country) {
+        List<Property> properties = propertyRepository.findAll()
+                .stream()
+                .filter(property -> property.isAvailable()
+                        && (city == null || property.getAddress().getCity().equalsIgnoreCase(city))
+                        && (country == null || property.getAddress().getCountry().equalsIgnoreCase(country)))
+                .collect(Collectors.toList());
+
+        return properties.stream()
+                .filter(property -> {
+                    // Überprüfen, ob eine Buchung die angegebenen Daten überschneidet
+                    return property.getBookingList().stream().noneMatch(booking ->
+                            (booking.getCheckInDate().isBefore(checkOut) && booking.getCheckOutDate().isAfter(checkIn))
+                    );
+                })
+                .filter(property -> property.getGuestsCapacity() >= guests)
+                .map(property -> propertyMapper.toPropertyListResponseDTO(property))
+                .collect(Collectors.toList());
     }
 }

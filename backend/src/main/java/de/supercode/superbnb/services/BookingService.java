@@ -51,6 +51,7 @@ public class BookingService {
         // Derzeit stumpfe buchung ohne große überprüfung
         User user = userService.getUserByEmail(userEmail);
         Property property = propertyService.getPropertyById(bookingRequest.propertyId());
+        if (!property.isAvailable()) throw new IllegalStateException("Property is not available");
 
         Booking newBooking = new Booking();
         newBooking.setUser(user);

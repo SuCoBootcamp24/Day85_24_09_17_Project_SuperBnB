@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,7 +26,11 @@ public class Property {
 
     private boolean available = false;
 
+
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @OneToMany(mappedBy = "property")
+    private List<Booking> bookingList;
 
 }
