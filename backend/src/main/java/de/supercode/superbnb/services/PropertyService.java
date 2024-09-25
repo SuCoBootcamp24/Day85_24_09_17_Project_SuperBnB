@@ -47,21 +47,15 @@ public class PropertyService {
     }
 
     public List<PropertyListResponseDTO> getAllProperties(Principal principal) {
-        if (principal != null) {
-            if (authenticationService.hasAdminRights(principal.getName())) {
-                return propertyRepository.findAll()
-                        .stream()
-                        .map(property -> propertyMapper.toPropertyListResponseDTO(property))
-                        .collect(Collectors.toList());
-            }
-
-        }
-        return propertyRepository.findAll()
-                .stream()
-                .filter(property -> property.isAvailable())
-                .map(property -> propertyMapper.toPropertyListResponseDTO(property))
-                .collect(Collectors.toList());
+        if (authenticationService.hasAdminRights(principal.getName())) {
+            return propertyRepository.findAll()
+                    .stream()
+                    .map(property -> propertyMapper.toPropertyListResponseDTO(property))
+                    .collect(Collectors.toList());
+        } else throw new RuntimeException("You are not a Administrator");
     }
+
+
 
     public Property getPropertyById(long id) {
         return propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));

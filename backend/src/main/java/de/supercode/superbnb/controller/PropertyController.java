@@ -32,6 +32,7 @@ public class PropertyController {
 
     //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<PropertyListResponseDTO>> getAllProperties(Principal principal) {
         return ResponseEntity.ok(propertyService.getAllProperties(principal));
     }
