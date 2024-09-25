@@ -29,6 +29,7 @@ public class PropertyController {
 
 
 
+
     //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
     public ResponseEntity<List<PropertyListResponseDTO>> getAllProperties(Principal principal) {
@@ -71,5 +72,11 @@ public class PropertyController {
     }
 
     //DELETE /api/properties/{id}: Eine Ferienwohnung löschen (nur für Administratoren)
+    @PostMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteProperty(@PathVariable long id, Principal adminDetails) {
+        if (propertyService.deleteProperty(id, adminDetails.getName())) return ResponseEntity.ok().build();
+        else return ResponseEntity.badRequest().build();
+    }
 
 }

@@ -175,4 +175,13 @@ public class PropertyService {
 
         return propertyMapper.toPaginatedPropertiesDTO(pagedProperties);
     }
+
+    public boolean deleteProperty(long id, String adminEmail) {
+        if (!authenticationService.hasAdminRights(adminEmail)) throw new RuntimeException("you cannot delete a property, you dont have permissions");
+
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));
+
+        propertyRepository.delete(property);
+        return true;
+    }
 }
