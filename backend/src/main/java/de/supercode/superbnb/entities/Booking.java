@@ -17,8 +17,8 @@ public class Booking {
     private Long id;
 
     private int guests;
-    private LocalDate CheckInDate;
-    private LocalDate CheckOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     @CreationTimestamp
     private LocalDateTime bookingDate;
 

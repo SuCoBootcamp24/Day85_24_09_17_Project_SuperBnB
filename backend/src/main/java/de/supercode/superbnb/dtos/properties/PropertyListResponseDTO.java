@@ -6,8 +6,9 @@ import java.math.BigDecimal;
 
 public record PropertyListResponseDTO(
         Long id,
-        String title,
+        String name,
         String description,
+        int guestsCapacity,
         BigDecimal priceAtNight,
         boolean available,
         AddressShortResponseDTO address

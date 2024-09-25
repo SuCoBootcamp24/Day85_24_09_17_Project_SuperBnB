@@ -1,7 +1,12 @@
 package de.supercode.superbnb.mappers;
 
+import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
 import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
+import de.supercode.superbnb.dtos.properties.PaginatedPropertiesDTO;
+import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.entities.Booking;
+import de.supercode.superbnb.entities.Property;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -27,4 +32,23 @@ public class BookingMapper {
                 })
                 .collect(Collectors.toList());
     }
+
+    public PropertyListResponseDTO toPropertyListResponseDTO(Property property) {
+        // Konvertierung der Property-Entität zu DTO (hier solltest du deine eigene Logik verwenden)
+        return new PropertyListResponseDTO(
+                property.getId(),
+                property.getName(),
+                property.getDescription(),
+                property.getGuestsCapacity(),
+                property.getPriceAtNight(),
+                property.isAvailable(),
+                new AddressShortResponseDTO(property.getAddress().getCity(),
+                                            property.getAddress().getZipCode(),
+                                            property.getAddress().getCountry())// falls Address als DTO vorliegt
+        );
+    }
+
+
+
 }
+

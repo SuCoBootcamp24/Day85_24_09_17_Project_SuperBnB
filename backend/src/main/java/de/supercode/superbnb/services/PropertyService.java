@@ -1,7 +1,7 @@
 package de.supercode.superbnb.services;
 
-import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
 import de.supercode.superbnb.dtos.favorite.FavoriteListDTO;
+import de.supercode.superbnb.dtos.properties.PaginatedPropertiesDTO;
 import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
@@ -12,6 +12,9 @@ import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.PropertyMapper;
 import de.supercode.superbnb.repositorys.FavoriteRepository;
 import de.supercode.superbnb.repositorys.PropertyRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -163,23 +166,13 @@ public class PropertyService {
         }
     }
 
-    public List<PropertyListResponseDTO> searchPropertiesByAddress(LocalDate checkIn, LocalDate checkOut, Integer guests, String city, String country) {
-        List<Property> properties = propertyRepository.findAll()
-                .stream()
-                .filter(property -> property.isAvailable()
-                        && (city == null || property.getAddress().getCity().equalsIgnoreCase(city))
-                        && (country == null || property.getAddress().getCountry().equalsIgnoreCase(country)))
-                .collect(Collectors.toList());
 
-        return properties.stream()
-                .filter(property -> {
-                    // Überprüfen, ob eine Buchung die angegebenen Daten überschneidet
-                    return property.getBookingList().stream().noneMatch(booking ->
-                            (booking.getCheckInDate().isBefore(checkOut) && booking.getCheckOutDate().isAfter(checkIn))
-                    );
-                })
-                .filter(property -> property.getGuestsCapacity() >= guests)
-                .map(property -> propertyMapper.toPropertyListResponseDTO(property))
-                .collect(Collectors.toList());
+
+    public PaginatedPropertiesDTO searchPropertiesByAddress(LocalDate checkIn, LocalDate checkOut, Integer guests, String city, String country, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Property> pagedProperties = propertyRepository.findAvailableProperties(city, country, checkIn, checkOut, guests, pageable);
+
+        return propertyMapper.toPaginatedPropertiesDTO(pagedProperties);
     }
 }

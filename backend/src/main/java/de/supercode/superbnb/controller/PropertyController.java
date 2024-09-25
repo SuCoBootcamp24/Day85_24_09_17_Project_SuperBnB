@@ -1,9 +1,11 @@
 package de.supercode.superbnb.controller;
 
+import de.supercode.superbnb.dtos.properties.PaginatedPropertiesDTO;
 import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
 import de.supercode.superbnb.services.PropertyService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +37,19 @@ public class PropertyController {
 
     //GET /api/v1/properties/search: Param verschiedene sucherfiter ========== (public)
     @GetMapping("/search")
-    public ResponseEntity<List<PropertyListResponseDTO>> searchProperties(@RequestParam(required = true) LocalDate checkIn,
-                                                                          @RequestParam(required = true) LocalDate checkOut,
-                                                                          @RequestParam(required = true) Integer guests,
-                                                                          @RequestParam(required = false) String city,
-                                                                          @RequestParam(required = false) String country){
+    public ResponseEntity<PaginatedPropertiesDTO> searchProperties(
+            @RequestParam(required = true) LocalDate checkIn,
+            @RequestParam(required = true) LocalDate checkOut,
+            @RequestParam(required = true) Integer guests,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String country,
+            @RequestParam(defaultValue = "0") int page,    // Standardseite: 0 (erste Seite)
+            @RequestParam(defaultValue = "10") int size) { // Standardgröße: 10 (10 Ergebnisse pro Seite)
 
-        return ResponseEntity.ok(propertyService.searchPropertiesByAddress(checkIn, checkOut, guests, city, country));
+        PaginatedPropertiesDTO responseDTO = propertyService.searchPropertiesByAddress(
+                checkIn, checkOut, guests, city, country, page, size);
+
+        return ResponseEntity.ok(responseDTO);
     }
 
 

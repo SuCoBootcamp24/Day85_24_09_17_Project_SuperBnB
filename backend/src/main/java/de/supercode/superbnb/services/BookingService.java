@@ -9,7 +9,6 @@ import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.BookingMapper;
 import de.supercode.superbnb.repositorys.BookingRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
