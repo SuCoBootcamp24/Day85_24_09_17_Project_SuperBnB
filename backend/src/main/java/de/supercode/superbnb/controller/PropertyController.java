@@ -45,11 +45,11 @@ public class PropertyController {
             @RequestParam(required = true) Integer guests,
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String country,
-            @RequestParam(defaultValue = "0") int page,    // Standardseite: 0 (erste Seite)
+            @RequestParam(defaultValue = "1") int page,    // Standardseite: 0 (erste Seite)
             @RequestParam(defaultValue = "10") int size) { // Standardgröße: 10 (10 Ergebnisse pro Seite)
 
         PaginatedPropertiesDTO responseDTO = propertyService.searchPropertiesByAddress(
-                checkIn, checkOut, guests, city, country, page, size);
+                checkIn, checkOut, guests, city, country, page -1, size);
 
         return ResponseEntity.ok(responseDTO);
     }
