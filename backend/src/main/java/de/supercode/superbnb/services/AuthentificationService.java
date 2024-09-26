@@ -19,6 +19,9 @@ public class AuthentificationService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
+
+
+
     public AuthentificationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,6 +36,11 @@ public class AuthentificationService {
         newUser.setPayment(creatNewPayment(dto));
         return userRepository.save(newUser);
     }
+
+
+
+
+
 
     public boolean userRegisterByAdmin(AuthAdminRegDTO dto) {
         Optional<User> existUser = userRepository.findByEmail(dto.email());
