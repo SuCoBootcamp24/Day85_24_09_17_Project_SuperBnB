@@ -6,6 +6,7 @@ import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.services.AuthentificationService;
 import de.supercode.superbnb.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -24,8 +25,8 @@ public class AuthController {
 
 
     @PostMapping("/login") //login durch BasicAuth im header
-    public UserShortResponseDTO login(Principal principal) {
-        return userService.getUserDetailsByLogin(principal.getName());
+    public UserShortResponseDTO login(Authentication authentication) {
+        return userService.getUserDetailsByLogin(authentication);
     }
 
     @PostMapping("/register")

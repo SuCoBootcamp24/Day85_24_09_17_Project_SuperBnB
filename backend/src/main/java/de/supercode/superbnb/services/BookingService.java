@@ -9,6 +9,7 @@ import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.BookingMapper;
 import de.supercode.superbnb.repositorys.BookingRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -46,9 +47,9 @@ public class BookingService {
     }
 
 
-    public BookingResponseDTO propertyBooking(BookingRequestDTO bookingRequest, String userEmail) {
+    public BookingResponseDTO propertyBooking(BookingRequestDTO bookingRequest, Authentication authentication) {
         // Derzeit stumpfe buchung ohne große überprüfung
-        User user = userService.getUserByEmail(userEmail);
+        User user = userService.getUserByEmail(authentication.getName());
         Property property = propertyService.getPropertyById(bookingRequest.propertyId());
         if (!property.isAvailable()) throw new IllegalStateException("Property is not available");
 
@@ -65,14 +66,14 @@ public class BookingService {
     }
 
 
-    public List<BookingListByUserResponseDTO> getUserBookings(String email) {
-        User user = userService.getUserByEmail(email);
+    public List<BookingListByUserResponseDTO> getUserBookings(Authentication authentication) {
+        User user = userService.getUserByEmail(authentication.getName());
         List<Booking> bookingList = bookingRepository.findAllByUserId(user.getId());
         return bookingMapper.toDTOList(bookingList);
     }
 
-    public List<BookingAdminListDTO> getAllBookings(String adminEmail) {
-        if (!authentificationService.hasAdminRights(adminEmail)) throw new RuntimeException("you must have admin rights");
+    public List<BookingAdminListDTO> getAllBookings(Authentication authentication) {
+        if (!authentificationService.hasAdminRights(authentication)) return null;
 
         List<User> userList = userService.getAllUsers();
 

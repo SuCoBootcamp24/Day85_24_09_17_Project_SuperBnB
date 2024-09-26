@@ -8,6 +8,8 @@ public record UserShortResponseDTO(
         String firstName,
         String lastName,
 
-        Role role
+        Role role,
+
+        String token
 ) {
 }

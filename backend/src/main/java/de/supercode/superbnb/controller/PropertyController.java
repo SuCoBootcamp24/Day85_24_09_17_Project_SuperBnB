@@ -8,6 +8,7 @@ import de.supercode.superbnb.services.PropertyService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -32,17 +33,17 @@ public class PropertyController {
 
     //GET /api/properties: Liste aller verfügbaren Ferienwohnungen anzeigen =========(public)
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<PropertyListResponseDTO>> getAllProperties(Principal principal) {
-        return ResponseEntity.ok(propertyService.getAllProperties(principal));
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<List<PropertyListResponseDTO>> getAllProperties(Authentication authentication) {
+        return ResponseEntity.ok(propertyService.getAllProperties(authentication));
     }
 
     //GET /api/v1/properties/search: Param verschiedene sucherfiter ========== (public)
     @GetMapping("/search")
     public ResponseEntity<PaginatedPropertiesDTO> searchProperties(
-            @RequestParam(required = true) LocalDate checkIn,
-            @RequestParam(required = true) LocalDate checkOut,
-            @RequestParam(required = true) Integer guests,
+            @RequestParam() LocalDate checkIn,
+            @RequestParam() LocalDate checkOut,
+            @RequestParam() Integer guests,
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String country,
             @RequestParam(defaultValue = "1") int page,    // Standardseite: 0 (erste Seite)
@@ -58,25 +59,25 @@ public class PropertyController {
 
     //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PropertyListResponseDTO> creatNewProperty(@RequestBody PropertyRequestDTO dto, Principal adminDetails) {
-        System.out.println(adminDetails.getName());
-        return ResponseEntity.ok(propertyService.createNewProperty(dto, adminDetails.getName()));
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<PropertyListResponseDTO> creatNewProperty(@RequestBody PropertyRequestDTO dto, Authentication authentication) {
+        System.out.println("######################################################");
+        return ResponseEntity.ok(propertyService.createNewProperty(dto, authentication));
     }
 
     //PUT /api/properties/{id}: Eine bestehende Ferienwohnung aktualisieren (nur für Administratoren)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> updateProperty(@PathVariable long id, @RequestBody PropertyUpdateDTO dto, Principal adminDetails) {
-        if (propertyService.updateProperty(id, dto, adminDetails.getName())) return ResponseEntity.ok().build();
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<Void> updateProperty(@PathVariable long id, @RequestBody PropertyUpdateDTO dto, Authentication authentication) {
+        if (propertyService.updateProperty(id, dto, authentication)) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();
     }
 
     //DELETE /api/properties/{id}: Eine Ferienwohnung löschen (nur für Administratoren)
-    @PostMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteProperty(@PathVariable long id, Principal adminDetails) {
-        if (propertyService.deleteProperty(id, adminDetails.getName())) return ResponseEntity.ok().build();
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<Void> deleteProperty(@PathVariable long id, Authentication authentication) {
+        if (propertyService.deleteProperty(id, authentication)) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();
     }
 

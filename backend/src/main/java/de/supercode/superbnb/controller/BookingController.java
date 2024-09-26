@@ -7,6 +7,7 @@ import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -28,23 +29,23 @@ public class BookingController {
 
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
     @GetMapping("list")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<BookingAdminListDTO>> getAllBookings(Principal adminDetails) {
-        return ResponseEntity.ok(bookingService.getAllBookings(adminDetails.getName()));
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<List<BookingAdminListDTO>> getAllBookings(Authentication authentication) {
+        return ResponseEntity.ok(bookingService.getAllBookings(authentication));
     }
 
 
 
     //POST /api/bookings: Eine Ferienwohnung buchen
     @PostMapping
-    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest, Principal userDetails) {
-        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest, userDetails.getName()));
+    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest, Authentication authentication) {
+        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest, authentication));
     }
 
     //GET /api/bookings/userbooking: Liste von buchung des users anzeigen (später über Cookies)
     @GetMapping("userbooking")
-    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(Principal userDetails) {
-        return ResponseEntity.ok(bookingService.getUserBookings(userDetails.getName()));
+    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(Authentication authentication) {
+        return ResponseEntity.ok(bookingService.getUserBookings(authentication));
     }
 
     //DELETE /api/bookings/{id}: Eine Buchung stornieren
@@ -53,6 +54,7 @@ public class BookingController {
         if(bookingService.deleteBooking(id)) return ResponseEntity.ok().build();
         else return ResponseEntity.notFound().build();
     }
+
 
 
 }

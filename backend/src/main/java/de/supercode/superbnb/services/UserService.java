@@ -10,6 +10,7 @@ import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.UserMapper;
 import de.supercode.superbnb.repositorys.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,15 +46,15 @@ public class UserService {
     }
 
 
-    public UserShortResponseDTO getUserDetailsByLogin(String email) {
-        User existUser = getUserByEmail(email);
-        return new UserShortResponseDTO(existUser.getId(), existUser.getFirstName(), existUser.getLastName(), existUser.getRole());
+    public UserShortResponseDTO getUserDetailsByLogin(Authentication authentication) {
+        User existUser = getUserByEmail(authentication.getName());
+        String token = authenticationService.getToken(authentication);
+        return new UserShortResponseDTO(existUser.getId(), existUser.getFirstName(), existUser.getLastName(), existUser.getRole(), token);
     }
 
 
-    public List<UserListDTO> getUserList(String email) {
-        User existUser = getUserByEmail(email);
-        if (!existUser.getRole().equals(Role.ADMIN)) throw new RuntimeException("You are not a Administrator!");
+    public List<UserListDTO> getUserList(Authentication authentication) {
+        if (!authenticationService.hasAdminRights(authentication)) return null;
         return userRepository.findAll().stream()
                 .map(user -> new UserListDTO(
                         user.getId(),
@@ -65,8 +66,8 @@ public class UserService {
                 .toList();
     }
 
-    public boolean updateUser(UserUpdateRequestDTO dto, String adminDetails) {
-        User initiatedUser = userRepository.findByEmail(adminDetails).orElseThrow(() -> new RuntimeException("initiated User not found"));
+    public boolean updateUser(UserUpdateRequestDTO dto, Authentication authentication) {
+        User initiatedUser = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new RuntimeException("initiated User not found"));
         User updatedUser = userRepository.findById(dto.id()).orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<Address> updatedAddress = Optional.empty();
@@ -79,7 +80,7 @@ public class UserService {
             updatedPayment = paymentService.getPaymentById(updatedUser.getPayment().getId());
         }
 
-        if (!initiatedUser.getRole().equals(Role.ADMIN) && initiatedUser.getId() != dto.id()) throw new RuntimeException("You are not a Administrator!");
+        if (!authenticationService.hasAdminRights(authentication) && initiatedUser.getId() != dto.id()) return false;
 
         if (!dto.firstName().isBlank() && !updatedUser.getFirstName().equals(dto.firstName())) updatedUser.setFirstName(dto.firstName());
         if (!dto.lastName().isBlank() && !updatedUser.getLastName().equals(dto.lastName())) updatedUser.setLastName(dto.lastName());
@@ -95,12 +96,10 @@ public class UserService {
         if (!dto.cardNumber().isBlank() ||!dto.cvv().isBlank() || dto.expirationDate() != null) updatedUser.setPayment(paymentService.updatePayment(updatedPayment, dto));
 
         //Roles update
-        if(!updatedUser.getRole().equals(dto.role())) {
-            if (initiatedUser.getRole().equals(Role.ADMIN)) {
-                if (initiatedUser.getId() != updatedUser.getId()) {
-                    updatedUser.setRole(dto.role());
-                } else throw new RuntimeException("You can't change your own role");
-            } else throw new RuntimeException("You are not privileged to change your role");
+        if(dto.role() != null && !updatedUser.getRole().equals(dto.role())) {
+            if (authenticationService.hasAdminRights(authentication)) {
+                updatedUser.setRole(dto.role());
+            }
         }
 
         userRepository.save(updatedUser);

@@ -8,6 +8,7 @@ import de.supercode.superbnb.entities.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.repositorys.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,13 @@ public class AuthentificationService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
+    private TokenService tokenService;
 
 
-
-    public AuthentificationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthentificationService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     public User userRegister(AuthRegDTO dto) {
@@ -77,7 +79,7 @@ public class AuthentificationService {
             dto.street(),
             dto.houseNumber(),
             dto.city(),
-            dto.postalCode(),
+            dto.zipCode(),
             dto.country()
         );
     }
@@ -92,7 +94,15 @@ public class AuthentificationService {
         }
     }
 
-    public boolean hasAdminRights(String adminEmail) {
-        return userRepository.findByEmail(adminEmail).get().getRole().equals(Role.ADMIN);
+    public boolean hasAdminRights(Authentication authentication) {
+        Optional<User> user = userRepository.findByEmail(authentication.getName());
+        if (user.isPresent()){
+            if (user.get().getRole().equals(Role.ADMIN)) return true;
+            else return false;
+        } else return false;
+}
+
+    public String getToken(Authentication authentication) {
+        return tokenService.generateToken(authentication);
     }
 }

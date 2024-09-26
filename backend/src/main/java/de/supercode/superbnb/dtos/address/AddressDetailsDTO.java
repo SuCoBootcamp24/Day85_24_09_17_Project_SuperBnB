@@ -6,7 +6,7 @@ public record AddressDetailsDTO(
 
         String street,
         String houseNumber,
-        String postalCode,
+        String zipCode,
         String city,
         String country
 ) {
