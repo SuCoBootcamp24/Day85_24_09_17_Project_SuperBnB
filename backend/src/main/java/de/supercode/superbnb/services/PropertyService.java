@@ -15,6 +15,7 @@ import de.supercode.superbnb.repositorys.PropertyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -46,13 +47,13 @@ public class PropertyService {
         this.addressService = addressService;
     }
 
-    public List<PropertyListResponseDTO> getAllProperties(Principal principal) {
-        if (authenticationService.hasAdminRights(principal.getName())) {
+    public List<PropertyListResponseDTO> getAllProperties(Authentication authentication) {
+        if (authenticationService.hasAdminRights(authentication)) {
             return propertyRepository.findAll()
                     .stream()
                     .map(property -> propertyMapper.toPropertyListResponseDTO(property))
                     .collect(Collectors.toList());
-        } else throw new RuntimeException("You are not a Administrator");
+        } else return null;
     }
 
 
@@ -62,9 +63,8 @@ public class PropertyService {
     }
 
 
-    public PropertyListResponseDTO createNewProperty(PropertyRequestDTO dto, String adminEmail) {
-        if (!authenticationService.hasAdminRights(adminEmail))
-            throw new RuntimeException("you cannot create a new property, you dont have permissions");
+    public PropertyListResponseDTO createNewProperty(PropertyRequestDTO dto, Authentication authentication) {
+        if (!authenticationService.hasAdminRights(authentication))return null;
 
         Property property = new Property();
         if (!dto.name().isBlank())  property.setName(dto.name());
@@ -85,9 +85,8 @@ public class PropertyService {
 
     }
 
-    public boolean updateProperty(long id, PropertyUpdateDTO dto, String AdminEmail) {
-        if (!authenticationService.hasAdminRights(AdminEmail))
-            throw new RuntimeException("you cannot update a property, you dont have permissions");
+    public boolean updateProperty(long id, PropertyUpdateDTO dto, Authentication authentication) {
+        if (!authenticationService.hasAdminRights(authentication)) return false;
 
         Property property = propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));
         Optional<Address> existAddress = addressService.getAddressById(property.getAddress().getId());
@@ -170,8 +169,8 @@ public class PropertyService {
         return propertyMapper.toPaginatedPropertiesDTO(pagedProperties);
     }
 
-    public boolean deleteProperty(long id, String adminEmail) {
-        if (!authenticationService.hasAdminRights(adminEmail)) throw new RuntimeException("you cannot delete a property, you dont have permissions");
+    public boolean deleteProperty(long id,Authentication authentication) {
+        if (!authenticationService.hasAdminRights(authentication)) return false;
 
         Property property = propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));
 

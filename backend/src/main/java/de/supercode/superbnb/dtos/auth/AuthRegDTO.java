@@ -22,7 +22,7 @@ public record AuthRegDTO(
         //---- address
         String street,
         String houseNumber,
-        String postalCode,
+        String zipCode,
         String city,
         String country,
 

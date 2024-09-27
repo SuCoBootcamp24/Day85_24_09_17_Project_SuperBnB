@@ -10,7 +10,7 @@ public record AddressRequestDTO(
         String houseNumber,
 
         @NotBlank
-        String postalCode,
+        String zipCode,
 
         @NotBlank
         String city,
