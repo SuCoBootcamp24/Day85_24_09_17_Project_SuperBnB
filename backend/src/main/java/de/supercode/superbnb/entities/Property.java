@@ -30,7 +30,7 @@ public class Property {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany
     private List<Booking> bookingList;
 
     @OneToMany

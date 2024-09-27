@@ -6,6 +6,7 @@ import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
 import de.supercode.superbnb.entities.Address;
+import de.supercode.superbnb.entities.ImagesProperty;
 import de.supercode.superbnb.entities.person.Favorite;
 import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
@@ -175,5 +176,11 @@ public class PropertyService {
 
         propertyRepository.delete(property);
         return true;
+    }
+
+    public void addNewImage(Long id, ImagesProperty img) {
+        Property property = getPropertyById(id);
+        property.getImages().add(img);
+        propertyRepository.save(property);
     }
 }

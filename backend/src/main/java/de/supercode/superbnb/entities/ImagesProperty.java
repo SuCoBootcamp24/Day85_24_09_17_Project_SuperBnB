@@ -21,6 +21,6 @@ public class ImagesProperty {
 
     private boolean thumbnailI = false;
 
-    @ManyToOne
-    private Property property;
+    @Column(nullable = false)
+    private long propertyId;
 }
