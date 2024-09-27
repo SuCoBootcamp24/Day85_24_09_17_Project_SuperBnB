@@ -1,10 +1,10 @@
 package de.supercode.superbnb.entities;
 
+import de.supercode.superbnb.entities.person.Booking;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -32,5 +32,8 @@ public class Property {
 
     @OneToMany(mappedBy = "property")
     private List<Booking> bookingList;
+
+    @OneToMany
+    private List<ImagesProperty> images;
 
 }

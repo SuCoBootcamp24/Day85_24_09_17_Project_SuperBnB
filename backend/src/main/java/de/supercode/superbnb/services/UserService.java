@@ -5,7 +5,7 @@ import de.supercode.superbnb.dtos.user.UserListDTO;
 import de.supercode.superbnb.dtos.user.UserShortResponseDTO;
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.UserMapper;

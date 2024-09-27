@@ -1,5 +1,6 @@
-package de.supercode.superbnb.entities;
+package de.supercode.superbnb.entities.person;
 
+import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
 import lombok.Data;
