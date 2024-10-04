@@ -1,10 +1,11 @@
-package de.supercode.superbnb.dtos;
+package de.supercode.superbnb.dtos.booking;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record BookingResponseDTO(
         long id,
+        int guests,
         Long userid,
         long propertyId,
         LocalDateTime bookingDate,

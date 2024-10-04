@@ -1,11 +1,17 @@
 package de.supercode.superbnb.controller;
 
-import de.supercode.superbnb.dtos.BookingRequestDTO;
-import de.supercode.superbnb.dtos.BookingResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingAdminListDTO;
+import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
+import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
+import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,20 +24,29 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+
+
+
+
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
+    @GetMapping("list")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<List<BookingAdminListDTO>> getAllBookings(Authentication authentication) {
+        return ResponseEntity.ok(bookingService.getAllBookings(authentication));
+    }
 
 
 
     //POST /api/bookings: Eine Ferienwohnung buchen
     @PostMapping
-    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest) {
-        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest));
+    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody @Valid BookingRequestDTO bookingRequest, Authentication authentication) {
+        return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest, authentication));
     }
 
-    //GET /api/bookings/{id}: Liste von buchung des users anzeigen (später über Cookies)
-    @GetMapping("{id}")
-    public ResponseEntity<List<BookingResponseDTO>> getUserBookings(@PathVariable Long id) {
-        return ResponseEntity.ok(bookingService.getUserBookings(id));
+    //GET /api/bookings/userbooking: Liste von buchung des users anzeigen (später über Cookies)
+    @GetMapping("userbooking")
+    public ResponseEntity<List<BookingListByUserResponseDTO>> getUserBookings(Authentication authentication) {
+        return ResponseEntity.ok(bookingService.getUserBookings(authentication));
     }
 
     //DELETE /api/bookings/{id}: Eine Buchung stornieren
