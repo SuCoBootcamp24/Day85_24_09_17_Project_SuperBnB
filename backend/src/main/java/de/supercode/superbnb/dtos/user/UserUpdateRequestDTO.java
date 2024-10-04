@@ -2,12 +2,13 @@ package de.supercode.superbnb.dtos.user;
 
 import de.supercode.superbnb.entities.person.Role;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.YearMonth;
 
 public record UserUpdateRequestDTO(
 
-        @NotBlank
+        @NotNull
         long id,
 
         String firstName,

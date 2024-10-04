@@ -29,7 +29,7 @@ public class Booking {
     @Future(message = "The Check-out date must in the future")
     @Temporal(TemporalType.DATE)
     private LocalDate checkOutDate;
-    
+
     @CreationTimestamp
     private LocalDateTime bookingDate;
 
