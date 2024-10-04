@@ -4,7 +4,7 @@ import de.supercode.superbnb.dtos.booking.BookingAdminListDTO;
 import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
 import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
 import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
-import de.supercode.superbnb.entities.Booking;
+import de.supercode.superbnb.entities.person.Booking;
 import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.mappers.BookingMapper;

@@ -5,6 +5,7 @@ import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
 import de.supercode.superbnb.dtos.booking.BookingRequestDTO;
 import de.supercode.superbnb.dtos.booking.BookingResponseDTO;
 import de.supercode.superbnb.services.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -38,7 +39,7 @@ public class BookingController {
 
     //POST /api/bookings: Eine Ferienwohnung buchen
     @PostMapping
-    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody BookingRequestDTO bookingRequest, Authentication authentication) {
+    public ResponseEntity<BookingResponseDTO> propertyBooking(@RequestBody @Valid BookingRequestDTO bookingRequest, Authentication authentication) {
         return ResponseEntity.ok(bookingService.propertyBooking(bookingRequest, authentication));
     }
 

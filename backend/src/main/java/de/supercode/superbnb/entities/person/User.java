@@ -1,14 +1,11 @@
 package de.supercode.superbnb.entities.person;
 
 import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.ImagesUser;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +25,7 @@ public class User implements UserDetails {
     private long id;
 
     @Column(unique = true)
+    @Email(message = "The email address must be a valid email address")
     private String email;
     private String password;
     private String firstName;
@@ -43,6 +41,12 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
+    @OneToOne
+    private ImagesUser profileImage;
+
+
 
     public User() {
     }

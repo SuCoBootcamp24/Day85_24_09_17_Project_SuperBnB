@@ -4,7 +4,7 @@ package de.supercode.superbnb.services;
 import de.supercode.superbnb.dtos.auth.AuthAdminRegDTO;
 import de.supercode.superbnb.dtos.auth.AuthRegDTO;
 import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
 import de.supercode.superbnb.repositorys.UserRepository;

@@ -1,10 +1,11 @@
 package de.supercode.superbnb.entities;
 
+import de.supercode.superbnb.entities.person.Booking;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    @NotBlank(message = "Property name must not be null and not empty")
     private String name;
     private String description;
     private int guestsCapacity;
@@ -30,7 +34,10 @@ public class Property {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany
     private List<Booking> bookingList;
+
+    @OneToMany
+    private List<ImagesProperty> images;
 
 }

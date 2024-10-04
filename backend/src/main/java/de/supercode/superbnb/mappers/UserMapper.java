@@ -4,7 +4,7 @@ import de.supercode.superbnb.dtos.address.AddressDetailsDTO;
 import de.supercode.superbnb.dtos.payment.PaymentResponseDTO;
 import de.supercode.superbnb.dtos.user.UserDetailsResponseDTO;
 import de.supercode.superbnb.entities.Address;
-import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.entities.person.User;
 import org.springframework.stereotype.Component;
 

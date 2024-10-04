@@ -4,21 +4,25 @@ import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
-public class Favorite {
+public class ImagesUser {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String ImageName;
 
-    @OneToMany
-    private Set<Property> favorites = new HashSet<>();
+    @Column(length = 500)
+    private String imageURL;
+
+    @Column(length = 500)
+    private String deleteURL;
+
+    @Column(nullable = false)
+    private long userId;
+
 }

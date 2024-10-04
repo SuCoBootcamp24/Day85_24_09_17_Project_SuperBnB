@@ -6,6 +6,7 @@ import de.supercode.superbnb.dtos.user.UserListDTO;
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.services.AuthentificationService;
 import de.supercode.superbnb.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -46,14 +47,14 @@ public class UserController {
     //POST /api/users: Einen neuen Benutzer anlegen (nur für Administratoren)
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Void> creatNewUserByAdmin(@RequestBody AuthAdminRegDTO newUserDTO) {
+    public ResponseEntity<Void> creatNewUserByAdmin(@RequestBody @Valid AuthAdminRegDTO newUserDTO) {
         if (authentificationService.userRegisterByAdmin(newUserDTO)) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();
     }
 
     //PUT /api/users: Bearbeiten eines benutzers (nur Administrator) oder sich selbst Benutzers
     @PutMapping("/update")
-    public ResponseEntity<Void> updateUser(@RequestBody UserUpdateRequestDTO updatedUserDTO, Authentication authentication) {
+    public ResponseEntity<Void> updateUser(@RequestBody @Valid UserUpdateRequestDTO updatedUserDTO, Authentication authentication) {
 
         if (userService.updateUser(updatedUserDTO, authentication)) return ResponseEntity.ok().build();
         else return ResponseEntity.badRequest().build();

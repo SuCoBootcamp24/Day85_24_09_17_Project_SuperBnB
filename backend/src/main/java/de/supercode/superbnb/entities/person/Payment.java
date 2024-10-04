@@ -1,4 +1,4 @@
-package de.supercode.superbnb.entities;
+package de.supercode.superbnb.entities.person;
 
 import jakarta.persistence.*;
 import lombok.Data;

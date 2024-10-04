@@ -2,11 +2,9 @@ package de.supercode.superbnb.mappers;
 
 import de.supercode.superbnb.dtos.address.AddressShortResponseDTO;
 import de.supercode.superbnb.dtos.booking.BookingListByUserResponseDTO;
-import de.supercode.superbnb.dtos.properties.PaginatedPropertiesDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
-import de.supercode.superbnb.entities.Booking;
+import de.supercode.superbnb.entities.person.Booking;
 import de.supercode.superbnb.entities.Property;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

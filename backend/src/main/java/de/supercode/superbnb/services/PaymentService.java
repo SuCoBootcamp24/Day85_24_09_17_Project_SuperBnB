@@ -1,7 +1,7 @@
 package de.supercode.superbnb.services;
 
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
-import de.supercode.superbnb.entities.Payment;
+import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.repositorys.PaymentRepository;
 import org.springframework.stereotype.Service;
 

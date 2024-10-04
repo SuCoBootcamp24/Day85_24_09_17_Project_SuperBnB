@@ -1,6 +1,6 @@
 package de.supercode.superbnb.repositorys;
 
-import de.supercode.superbnb.entities.Booking;
+import de.supercode.superbnb.entities.person.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
