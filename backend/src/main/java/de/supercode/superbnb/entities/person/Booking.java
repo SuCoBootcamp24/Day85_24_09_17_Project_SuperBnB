@@ -3,6 +3,7 @@ package de.supercode.superbnb.entities.person;
 import de.supercode.superbnb.entities.Property;
 import de.supercode.superbnb.entities.person.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,8 +19,17 @@ public class Booking {
     private Long id;
 
     private int guests;
+
+
+    @Future(message = "The Check-in date must in the future")
+    @Temporal(TemporalType.DATE)
     private LocalDate checkInDate;
+
+
+    @Future(message = "The Check-out date must in the future")
+    @Temporal(TemporalType.DATE)
     private LocalDate checkOutDate;
+    
     @CreationTimestamp
     private LocalDateTime bookingDate;
 

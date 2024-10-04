@@ -3,6 +3,7 @@ package de.supercode.superbnb.entities.person;
 import de.supercode.superbnb.entities.Address;
 import de.supercode.superbnb.entities.ImagesUser;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +25,7 @@ public class User implements UserDetails {
     private long id;
 
     @Column(unique = true)
+    @Email(message = "The email address must be a valid email address")
     private String email;
     private String password;
     private String firstName;

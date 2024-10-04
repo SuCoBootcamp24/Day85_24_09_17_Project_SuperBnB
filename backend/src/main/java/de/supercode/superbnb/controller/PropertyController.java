@@ -5,6 +5,7 @@ import de.supercode.superbnb.dtos.properties.PropertyRequestDTO;
 import de.supercode.superbnb.dtos.properties.PropertyListResponseDTO;
 import de.supercode.superbnb.dtos.properties.PropertyUpdateDTO;
 import de.supercode.superbnb.services.PropertyService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,8 +61,7 @@ public class PropertyController {
     //POST /api/properties: Eine neue Ferienwohnung hinzufügen (nur für Administratoren)
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<PropertyListResponseDTO> creatNewProperty(@RequestBody PropertyRequestDTO dto, Authentication authentication) {
-        System.out.println("######################################################");
+    public ResponseEntity<PropertyListResponseDTO> creatNewProperty(@RequestBody @Valid PropertyRequestDTO dto, Authentication authentication) {
         return ResponseEntity.ok(propertyService.createNewProperty(dto, authentication));
     }
 

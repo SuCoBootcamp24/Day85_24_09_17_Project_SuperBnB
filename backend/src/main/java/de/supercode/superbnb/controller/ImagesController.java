@@ -5,6 +5,7 @@ import de.supercode.superbnb.dtos.images.properties.ImagesPropertiesListResponse
 import de.supercode.superbnb.dtos.images.properties.ImagesPropertyUploadDTO;
 import de.supercode.superbnb.dtos.images.users.ImagesUserProfileUploadDTO;
 import de.supercode.superbnb.services.ImagesService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -30,13 +31,13 @@ ImagesService imagesService;
 
     @PostMapping("/properties")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Void> addNewPropertyImages(@ModelAttribute ImagesPropertyUploadDTO dto) throws Exception {
+    public ResponseEntity<Void> addNewPropertyImages(@ModelAttribute @Valid ImagesPropertyUploadDTO dto) throws Exception {
         imagesService.addNewPropertyImages(dto);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Void> addNewProfileImages(@ModelAttribute ImagesUserProfileUploadDTO dto, Authentication authentication) throws Exception {
+    public ResponseEntity<Void> addNewProfileImages(@ModelAttribute @Valid ImagesUserProfileUploadDTO dto, Authentication authentication) throws Exception {
         System.out.println(dto);
         imagesService.addNewProfileImages(dto, authentication);
         return ResponseEntity.ok().build();

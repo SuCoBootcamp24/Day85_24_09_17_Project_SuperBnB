@@ -2,6 +2,7 @@ package de.supercode.superbnb.entities;
 
 import de.supercode.superbnb.entities.person.Booking;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,6 +15,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    @NotBlank(message = "Property name must not be null and not empty")
     private String name;
     private String description;
     private int guestsCapacity;
