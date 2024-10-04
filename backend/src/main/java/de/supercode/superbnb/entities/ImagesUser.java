@@ -22,8 +22,7 @@ public class ImagesUser {
     @Column(length = 500)
     private String deleteURL;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false)
+    private long userId;
 
 }

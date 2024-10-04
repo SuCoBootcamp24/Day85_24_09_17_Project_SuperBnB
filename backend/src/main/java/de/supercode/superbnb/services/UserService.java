@@ -5,6 +5,7 @@ import de.supercode.superbnb.dtos.user.UserListDTO;
 import de.supercode.superbnb.dtos.user.UserShortResponseDTO;
 import de.supercode.superbnb.dtos.user.UserUpdateRequestDTO;
 import de.supercode.superbnb.entities.Address;
+import de.supercode.superbnb.entities.ImagesUser;
 import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
@@ -124,5 +125,11 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public void addOrChangeProfileImages(long id, ImagesUser img) {
+        User user = getUserById(id);
+        user.setProfileImage(img);
+        userRepository.save(user);
     }
 }
