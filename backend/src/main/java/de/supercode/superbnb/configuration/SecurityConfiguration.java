@@ -47,6 +47,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register","/api/v1/properties/search").permitAll()   // Ohne login erlaubte seiten
                         .requestMatchers("/api/v1/auth/", "/api/v1/users", "/api/v1/users/delete/*", "/api/v1/properties/*").hasAuthority("SCOPE_ADMIN")  // Nur mit login erlaubte seiten
@@ -72,15 +73,15 @@ public class SecurityConfiguration {
 
 
 
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowedOrigins(List.of("*"));
-//        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-//        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-type"));
-//
-//        UrlBasedCorsConfigurationSource source =new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", corsConfiguration);
-//        return source;
-//    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-type"));
+
+        UrlBasedCorsConfigurationSource source =new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
 }
