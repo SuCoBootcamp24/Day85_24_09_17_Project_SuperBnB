@@ -1,5 +1,5 @@
 // globales styling Mixin, variablen und schriften
-
+$mintGreen: #8DD3BB;
 
 
 #root {
@@ -9,16 +9,36 @@
   text-align: center;
 }
 
+
+
+h3 {
+  margin: 0;
+  font-size: 3rem;
+  color: #213b21;
+}
+
 h4 {
   margin: 0;
-  font-size: 1.6rem;
+
+  font-size: 1.8rem;
+  font-weight: 400;
   color: #213b21;
 }
 
 p {
   margin: 0;
+  font-weight: 200;
   font-size: 1.6rem;
   color: #112211;
+}
+
+
+.titleBoxOne {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  text-align: start;
 }
 
 

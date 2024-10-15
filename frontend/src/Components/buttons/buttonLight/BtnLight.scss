@@ -1,0 +1,11 @@
+@use "../../../App.scss" as styles;
+
+
+button {
+    background-color: transparent;
+    border: 2px solid styles.$mintGreen;
+    height: 50px;
+    padding: 0 20px;
+
+    font-size: 1.6rem;
+  }
