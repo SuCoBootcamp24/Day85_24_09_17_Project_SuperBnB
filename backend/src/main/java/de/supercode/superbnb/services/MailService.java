@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
 
-    private JavaMailSender mailSender;
+  private JavaMailSender mailSender;
 
     public MailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -18,7 +18,7 @@ public class MailService {
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setFrom("xXX@xxx.xX");
+        message.setFrom("xXX@xxx.de");
         message.setSubject(subject);
         message.setText(body);
 
@@ -29,9 +29,9 @@ public class MailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
 
-            message.setRecipients(MimeMessage.RecipientType.TO, "yYy@yyy.yY");
+            message.setRecipients(MimeMessage.RecipientType.TO, "rene.behrens@aol.com");
             message.setSubject("mail-Title");
-            message.setFrom("xXX@xxx.xX");
+            message.setFrom("xXX@xxx.de");
             String htmlContent = """
                     <h1>This is an HTML email</h1>
                     <p>This is the body of the email.</p>

@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register","/api/v1/properties/search").permitAll()   // Ohne login erlaubte seiten
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register","/api/v1/properties/search", "/api/v1/newsletter").permitAll()   // Ohne login erlaubte seiten
                         .requestMatchers("/api/v1/auth/", "/api/v1/users", "/api/v1/users/delete/*", "/api/v1/properties/*").hasAuthority("SCOPE_ADMIN")  // Nur mit login erlaubte seiten
                         .anyRequest().hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER"))
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))

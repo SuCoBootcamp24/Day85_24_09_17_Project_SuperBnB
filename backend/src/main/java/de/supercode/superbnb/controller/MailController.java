@@ -1,6 +1,7 @@
 package de.supercode.superbnb.controller;
 
 import de.supercode.superbnb.services.MailService;
+import jakarta.mail.MessagingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,8 @@ public class MailController {
     }
 
     @GetMapping
-    public void sendEmail() {
-        mailService.sendEmail("recipient@example.com", "Newsletter", "Welcome to our newsletter!");
+    public void sendEmail() throws MessagingException {
+        mailService.sendEmail("ultimate@warrior.sixpack","Netter Biceps", "Hallo Hogan, du bist mal cool gewesen.");
         mailService.sendHtmlEmail();
     }
 }
