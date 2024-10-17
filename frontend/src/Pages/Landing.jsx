@@ -1,4 +1,5 @@
 import PopDestinations from "../Components/pop-destinations/PopDestinations";
+import ReviewBox from "../Components/reviewBox/ReviewBox";
 
 export default function LandingPage() {
 
@@ -18,6 +19,8 @@ return(
     <main>
         <h1>Landing Page</h1>
         <PopDestinations countries={countries} />
+        <ReviewBox />
+        
     </main>
 
 );
