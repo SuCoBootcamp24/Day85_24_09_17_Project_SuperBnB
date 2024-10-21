@@ -34,22 +34,20 @@ class BookingControllerTest {
     @Test
     @WithMockUser(authorities = "SCOPE_ADMIN")
     void getAllBookings_AsAdmin_ShouldReturnBookings() {
-        // Arrange
         List<BookingAdminListDTO> expectedBookings = List.of(
                 new BookingAdminListDTO("John", "Doe", List.of(), BigDecimal.valueOf(1000))
         );
         when(bookingService.getAllBookings(any())).thenReturn(expectedBookings);
 
-        // Act
         ResponseEntity<List<BookingAdminListDTO>> response = MookBookingController.getAllBookings(null);
 
-        // Assert
         assertEquals(ResponseEntity.ok(expectedBookings), response);
         verify(bookingService, times(1)).getAllBookings(any());
     }
 
     @Test
     void propertyBooking() {
+        
     }
 
     @Test
