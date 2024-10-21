@@ -25,9 +25,6 @@ public class BookingController {
     }
 
 
-
-
-
     //GET /api/bookings: Liste aller Buchungen anzeigen (nur für Administratoren)
     @GetMapping("list")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
