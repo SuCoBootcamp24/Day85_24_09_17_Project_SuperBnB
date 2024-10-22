@@ -34,9 +34,15 @@ public class AuthController {
         return authentificationService.userRegister(dto);
     }
 
+    @GetMapping("/forgot")
+    public void forgotPassword(){
+        // send email to user with password reset link
+    }
+
+
     @DeleteMapping("/logout")
-    public void logout(HttpSession session){
-        session.invalidate();
+    public void logout(){
+        // logout will made in frontend
     }
 
 }
