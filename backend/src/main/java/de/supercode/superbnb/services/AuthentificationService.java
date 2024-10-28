@@ -7,11 +7,13 @@ import de.supercode.superbnb.entities.Address;
 import de.supercode.superbnb.entities.person.Payment;
 import de.supercode.superbnb.entities.person.Role;
 import de.supercode.superbnb.entities.person.User;
+import de.supercode.superbnb.repositorys.PaymentRepository;
 import de.supercode.superbnb.repositorys.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -38,11 +40,7 @@ public class AuthentificationService {
         newUser.setPayment(creatNewPayment(dto));
         return userRepository.save(newUser);
     }
-
-
-
-
-
+    
 
     public boolean userRegisterByAdmin(AuthAdminRegDTO dto) {
         Optional<User> existUser = userRepository.findByEmail(dto.email());
@@ -73,6 +71,8 @@ public class AuthentificationService {
             dto.expirationDate()
         );
     }
+
+
 
     private Address creatNewAddress(AuthRegDTO dto) {
         return new Address(
